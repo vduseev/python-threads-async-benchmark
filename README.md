@@ -71,8 +71,15 @@ Summary
 
 1. Run a full proper benchmark using `hyperfine`
 
+   The benchmark script `run.sh` does something you could do yourself but it saves you some typing.
+
+   It has sensible default but expects you to point it to the python interpreter to use. This is
+   to be able to run the test against different virtual environments that belong to different Python
+   versions.
+
+
    ```shell
-   ./run.sh
+   ./run.sh ".venv/bin/python" --warmup 10 --runs 10 --output "results.json"
    ```
 
 ## Setup
@@ -93,17 +100,18 @@ sudo su
 
 # Install hyperfine and Python
 apt update
-add-apt-repository ppa:deadsnakes/ppa
-apt install hyperfine python3.10 python3.12
+add-apt-repository -y ppa:deadsnakes/ppa
+apt install -y hyperfine python3.10 python3.12 python3.10-venv python3.12-venv
 
 # Clone this repo
 git clone https://github.com/vduseev/python-threads-async-benchmark.git /benchmark
 cd /benchmark
 
 # Install dependencies
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+python3.10 -m venv venv310
+python3.10 -m venv venv312
+./venv310/bin/pip install -r requirements.txt
+./venv312/bin/pip install -r requirements.txt
 ```
 
 ## Server
@@ -119,6 +127,9 @@ uvicorn --host 0.0.0.0 --port 8080 --no-access-log --log-level critical "server:
 export BENCHMARK_SERVER_HOST=<ip_address_of_server>
 export BENCHMARK_SERVER_PORT=8080
 
-# Run the hyperfine benchmarks
-./run.sh
+# Run the hyperfine benchmarks for Python 3.10
+./run.sh "venv310/bin/python" -w 20 -r 100 -q 1000 -o "results-310.json"
+
+# Run the hyperfine benchmarks for Python 3.12
+./run.sh "venv312/bin/python" -w 20 -r 100 -q 1000 -o "results-312.json"
 ```
