@@ -18,6 +18,8 @@ server_address = os.environ.get("BENCHMARK_SERVER_ADDRESS", "127.0.0.1")
 server_port = os.environ.get("BENCHMARK_SERVER_PORT", "8080")
 url = f"http://{server_address}:{server_port}/multiply"
 
+print(f"Going to make calls to the url: {url}")
+
 sync_session = requests.Session()
 async_session: aiohttp.ClientSession = None
 
@@ -98,7 +100,7 @@ def threads_map(queries: list[int]):
 @benchmark
 async def async_for(queries: list[int]):
     global async_session
-    async_session = aiohttp.ClientSession()
+    async_session = aiohttp.ClientSession(url)
 
     async with async_session:
         tasks = []
@@ -114,7 +116,7 @@ async def async_map(queries: list[int]):
         return asyncio.create_task(async_get(number))
     
     global async_session
-    async_session = aiohttp.ClientSession()
+    async_session = aiohttp.ClientSession(url)
 
     async with async_session:
         tasks = list(map(launch, queries))
