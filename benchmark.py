@@ -14,9 +14,9 @@ import requests
 
 T = TypeVar("T")
 
-server_address = os.environ.get("BENCHMARK_SERVER_ADDRESS", "127.0.0.1")
+server_host = os.environ.get("BENCHMARK_SERVER_HOST", "127.0.0.1")
 server_port = os.environ.get("BENCHMARK_SERVER_PORT", "8080")
-url = f"http://{server_address}:{server_port}/multiply"
+url = f"http://{server_host}:{server_port}/multiply"
 
 print(f"Going to make calls to the url: {url}")
 
