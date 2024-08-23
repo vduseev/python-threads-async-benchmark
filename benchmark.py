@@ -100,7 +100,7 @@ def threads_map(queries: list[int]):
 @benchmark
 async def async_for(queries: list[int]):
     global async_session
-    async_session = aiohttp.ClientSession(url)
+    async_session = aiohttp.ClientSession()
 
     async with async_session:
         tasks = []
@@ -116,7 +116,7 @@ async def async_map(queries: list[int]):
         return asyncio.create_task(async_get(number))
     
     global async_session
-    async_session = aiohttp.ClientSession(url)
+    async_session = aiohttp.ClientSession()
 
     async with async_session:
         tasks = list(map(launch, queries))
