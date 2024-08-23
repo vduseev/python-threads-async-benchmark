@@ -22,13 +22,66 @@ Multiple methods are used:
 
 A simple for loop that creates async tasks within the asyncio loop is the fastest option. Async is faster than threads.
 
+*Python 3.10*:
+
 ```
+Benchmark 1: venv310/bin/python benchmark.py threads-recreate -r 1000
+  Time (mean ± σ):      1.098 s ±  0.005 s    [User: 1.022 s, System: 0.133 s]
+  Range (min … max):    1.091 s …  1.108 s    10 runs
+ 
+Benchmark 2: venv310/bin/python benchmark.py threads-reuse -r 1000
+  Time (mean ± σ):      1.092 s ±  0.005 s    [User: 1.036 s, System: 0.131 s]
+  Range (min … max):    1.082 s …  1.098 s    10 runs
+ 
+Benchmark 3: venv310/bin/python benchmark.py threads-map -r 1000
+  Time (mean ± σ):      1.096 s ±  0.005 s    [User: 1.032 s, System: 0.135 s]
+  Range (min … max):    1.088 s …  1.103 s    10 runs
+ 
+Benchmark 4: venv310/bin/python benchmark.py async-for -r 1000
+  Time (mean ± σ):     693.6 ms ±   2.1 ms    [User: 559.1 ms, System: 51.7 ms]
+  Range (min … max):   691.4 ms … 698.7 ms    10 runs
+ 
+Benchmark 5: venv310/bin/python benchmark.py async-map -r 1000
+  Time (mean ± σ):     694.3 ms ±   2.0 ms    [User: 553.2 ms, System: 55.6 ms]
+  Range (min … max):   690.7 ms … 698.6 ms    10 runs
+ 
 Summary
-  .venv/bin/python benchmark.py async-for -r 1000 ran
-    1.01 ± 0.22 times faster than .venv/bin/python benchmark.py async-map -r 1000
-    1.54 ± 0.20 times faster than .venv/bin/python benchmark.py threads-recreate -r 1000
-    1.55 ± 0.21 times faster than .venv/bin/python benchmark.py threads-reuse -r 1000
-    1.57 ± 0.21 times faster than .venv/bin/python benchmark.py threads-map -r 1000
+  venv310/bin/python benchmark.py async-for -r 1000 ran
+    1.00 ± 0.00 times faster than venv310/bin/python benchmark.py async-map -r 1000
+    1.57 ± 0.01 times faster than venv310/bin/python benchmark.py threads-reuse -r 1000
+    1.58 ± 0.01 times faster than venv310/bin/python benchmark.py threads-map -r 1000
+    1.58 ± 0.01 times faster than venv310/bin/python benchmark.py threads-recreate -r 1000
+```
+
+*Python 3.12*:
+
+```
+Benchmark 1: venv312/bin/python benchmark.py threads-recreate -r 1000
+  Time (mean ± σ):      1.101 s ±  0.004 s    [User: 1.019 s, System: 0.138 s]
+  Range (min … max):    1.094 s …  1.107 s    10 runs
+ 
+Benchmark 2: venv312/bin/python benchmark.py threads-reuse -r 1000
+  Time (mean ± σ):      1.095 s ±  0.004 s    [User: 1.032 s, System: 0.139 s]
+  Range (min … max):    1.089 s …  1.101 s    10 runs
+ 
+Benchmark 3: venv312/bin/python benchmark.py threads-map -r 1000
+  Time (mean ± σ):      1.095 s ±  0.006 s    [User: 1.032 s, System: 0.132 s]
+  Range (min … max):    1.087 s …  1.104 s    10 runs
+ 
+Benchmark 4: venv312/bin/python benchmark.py async-for -r 1000
+  Time (mean ± σ):     691.8 ms ±   1.8 ms    [User: 561.1 ms, System: 49.3 ms]
+  Range (min … max):   689.1 ms … 694.4 ms    10 runs
+ 
+Benchmark 5: venv312/bin/python benchmark.py async-map -r 1000
+  Time (mean ± σ):     691.5 ms ±   1.5 ms    [User: 559.0 ms, System: 51.3 ms]
+  Range (min … max):   688.3 ms … 693.3 ms    10 runs
+ 
+Summary
+  venv312/bin/python benchmark.py async-map -r 1000 ran
+    1.00 ± 0.00 times faster than venv312/bin/python benchmark.py async-for -r 1000
+    1.58 ± 0.01 times faster than venv312/bin/python benchmark.py threads-map -r 1000
+    1.58 ± 0.01 times faster than venv312/bin/python benchmark.py threads-reuse -r 1000
+    1.59 ± 0.01 times faster than venv312/bin/python benchmark.py threads-recreate -r 1000
 ```
 
 ## Usage
