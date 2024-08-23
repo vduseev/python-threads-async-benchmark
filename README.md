@@ -1,4 +1,4 @@
-# Python threads vs. async benchmark
+# Benchmark: requests vs. aiohttp
 
 ## Summary
 
@@ -82,9 +82,9 @@ Summary
    ./run.sh ".venv/bin/python" --warmup 10 --runs 10 --output "results.json"
    ```
 
-## Setup
+## Proper test
 
-### Requirements
+### Setup equirements
 
 2x `c5.large` EC2 instance running on dedicated hardware, running Ubuntu 24.02.
 
@@ -104,7 +104,7 @@ add-apt-repository -y ppa:deadsnakes/ppa
 apt install -y hyperfine python3.10 python3.12 python3.10-venv python3.12-venv
 
 # Clone this repo
-git clone https://github.com/vduseev/python-threads-async-benchmark.git /benchmark
+git clone https://github.com/vduseev/requests-vs-aiohttp.git /benchmark
 cd /benchmark
 
 # Install dependencies
@@ -114,13 +114,15 @@ python3.10 -m venv venv312
 ./venv312/bin/pip install -r requirements.txt
 ```
 
-## Server
+### Running the test
+
+#### Server
 
 ```shell
 uvicorn --host 0.0.0.0 --port 8080 --no-access-log --log-level critical "server:app"
 ```
 
-## Client
+#### Client
 
 ```shell
 # Point the client to the correct server
